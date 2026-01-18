@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
@@ -188,9 +189,21 @@ function Home() {
             <div id="portfolio" className="our-portfolio section">
                 <div className="container">
                     <div className="row">
-                        <div className="col-lg-6 offset-lg-3">
-                            <div className="section-heading  wow bounceIn" data-wow-duration="1s" data-wow-delay="0.2s">
-                                <h2>Découvrez Nos <em>Plats du Jour</em> &amp; Commandez en <span>Ligne</span></h2>
+                        <div className="col-lg-8 offset-lg-2">
+                            <div className="section-heading text-center mb-8">
+                                <motion.div
+                                    initial={{ opacity: 0, y: 30 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.8 }}
+                                    viewport={{ once: true }}
+                                >
+                                    <h6 className="text-orange-600 font-bold tracking-widest uppercase text-sm mb-2">Carte du moment</h6>
+                                    <h2 className="text-4xl md:text-5xl font-black text-gray-900 leading-tight">
+                                        Découvrez Nos <em className="italic text-orange-600">Plats du Jour</em> <br className="d-none d-md-block" />
+                                        & Commandez en <span className="text-blue-500">Ligne</span>
+                                    </h2>
+                                    <div className="w-20 h-1 bg-orange-600 mx-auto mt-4 rounded-full"></div>
+                                </motion.div>
                             </div>
                         </div>
                     </div>

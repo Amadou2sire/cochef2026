@@ -9,7 +9,6 @@ import { useCart } from '../hooks/useCart';
 
 function Menus() {
     const [products, setProducts] = useState([]);
-    const [supplements, setSupplements] = useState([]);
     const [categories, setCategories] = useState(['Tous']);
     const [activeTab, setActiveTab] = useState('Tous');
     const [searchTerm, setSearchTerm] = useState('');
@@ -21,18 +20,10 @@ function Menus() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [prodRes, suppRes] = await Promise.all([
-                    axios.get('http://localhost:8000/menu'),
-                    axios.get('http://localhost:8000/supplements')
-                ]);
+                const res = await axios.get('http://localhost:8000/menu');
+                setProducts(res.data);
 
-                setProducts(prodRes.data);
-                setSupplements(suppRes.data);
-
-                const uniqueCats = ['Tous', ...new Set(prodRes.data.map(p => p.category.charAt(0).toUpperCase() + p.category.slice(1)))];
-                if (suppRes.data.length > 0) {
-                    uniqueCats.push('Suppléments');
-                }
+                const uniqueCats = ['Tous', ...new Set(res.data.map(p => p.category.charAt(0).toUpperCase() + p.category.slice(1)))];
                 setCategories(uniqueCats);
             } catch (err) {
                 console.error("Error fetching menu data:", err);
@@ -44,25 +35,13 @@ function Menus() {
     }, []);
 
     const handleOrderClick = (item) => {
-        if (item.category === 'Supplément') {
-            // For separate supplements, add directly or handle differently
-            // Here we just add to cart with default logic
-            const productRef = {
-                id: item.originalId,
-                name: item.name,
-                base_price: parseFloat(item.price.split(' ')[0]),
-                image_url: item.img
-            };
-            addToCart(productRef, 1, []);
-        } else {
-            const product = products.find(p => p.id === item.originalId);
-            setSelectedProduct(product);
-            setShowSelectionModal(true);
-        }
+        const product = products.find(p => p.id === item.originalId);
+        setSelectedProduct(product);
+        setShowSelectionModal(true);
     };
 
     const filteredItems = () => {
-        const filteredProducts = products.filter(p => {
+        return products.filter(p => {
             const matchesCategory = activeTab === 'Tous' || p.category.toLowerCase() === activeTab.toLowerCase();
             const matchesSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 p.description?.toLowerCase().includes(searchTerm.toLowerCase());
@@ -77,23 +56,6 @@ function Menus() {
             img: p.image_url || 'https://images.unsplash.com/photo-1540648364855-ad348cc39317?q=80&w=600',
             available: p.available === 1
         }));
-
-        const filteredSupps = supplements.filter(s => {
-            const matchesCategory = activeTab === 'Tous' || activeTab === 'Suppléments';
-            const matchesSearch = s.name.toLowerCase().includes(searchTerm.toLowerCase());
-            return matchesCategory && matchesSearch;
-        }).map(s => ({
-            id: `supp-${s.id}`,
-            originalId: s.id,
-            name: s.name,
-            price: `${s.price.toFixed(2)} DT`,
-            category: 'Supplément',
-            desc: 'Extra à ajouter à vos plats ou commander seul.',
-            img: s.image_url || 'https://images.unsplash.com/photo-1582401656496-9d75f928c346?q=80&w=600',
-            available: s.available === 1
-        }));
-
-        return [...filteredProducts, ...filteredSupps];
     };
 
     const displayItems = filteredItems();

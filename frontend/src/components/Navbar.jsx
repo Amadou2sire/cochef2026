@@ -53,7 +53,18 @@ function Navbar() {
                                 </Link>
                                 {/* ***** Logo End ***** */}
                                 {/* ***** Menu Start ***** */}
-                                <ul className={`nav ${mobileMenuOpen ? 'active' : ''}`}>
+                                <style>{`
+                                    @media (min-width: 992px) {
+                                        .header-area .main-nav .nav li {
+                                            padding-left: 10px !important;
+                                            padding-right: 10px !important;
+                                        }
+                                        .header-area .main-nav .nav li:last-child {
+                                            padding-left: 20px !important;
+                                        }
+                                    }
+                                `}</style>
+                                <ul className={`nav ${mobileMenuOpen ? 'active' : ''} flex-nowrap items-center`}>
                                     <li className="scroll-to-section"><Link to="/" className={location.pathname === '/' ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>Home</Link></li>
                                     <li className="scroll-to-section"><Link to="/menus" className={location.pathname === '/menus' ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>Menus</Link></li>
                                     <li className="scroll-to-section"><Link to="/concept" className={location.pathname === '/concept' ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>Concept</Link></li>

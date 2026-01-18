@@ -12,7 +12,7 @@ function Gourmandise() {
     return (
         <div className="gourmandise-page">
             {/* 1. Full Width Banner */}
-            <div className="w-full h-[50vh] relative overflow-hidden">
+            <div className="w-full h-[60vh] relative overflow-hidden">
                 <img
                     src="https://images.unsplash.com/photo-1517433670267-08bbd4be890f?q=80&w=1920&auto=format&fit=crop"
                     alt="Boulangerie Banner"
@@ -20,7 +20,7 @@ function Gourmandise() {
                 />
                 <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
                     <h1 className="text-5xl md:text-7xl font-bold text-white font-heading text-center shadow-lg">
-                        Les gourmandises d'Ihsene
+                        {/* Les gourmandises d'Ihsene */}
                     </h1>
                 </div>
             </div>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Button, Form } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Form, Modal } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -8,6 +8,7 @@ function AdminDashboard() {
     const [user, setUser] = useState(null);
     const [capacity, setCapacity] = useState(10);
     const [isSaving, setIsSaving] = useState(false);
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -48,7 +49,7 @@ function AdminDashboard() {
             }, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            alert("Capacité mise à jour !");
+            setShowSuccessModal(true);
         } catch (err) {
             console.error("Error updating capacity:", err);
         }
@@ -115,35 +116,75 @@ function AdminDashboard() {
                     </Col>
                 </Row>
 
-                <Row className="mt-5">
+                <Row className="mt-5 justify-content-center">
                     <Col lg={12}>
-                        <Card className="border-0 shadow-sm p-4">
-                            <h4>Paramètres Généraux</h4>
-                            <hr />
-                            <Form.Group className="mb-3 d-flex align-items-center">
-                                <div style={{ minWidth: '200px' }}>
-                                    <Form.Label className="mb-0">Capacité Maximale Cuisine</Form.Label>
-                                    <small className="d-block text-muted">Nombre de places total disponibles.</small>
-                                </div>
-                                <Form.Control
-                                    type="number"
-                                    style={{ width: '100px' }}
-                                    className="mx-3"
-                                    value={capacity}
-                                    onChange={e => setCapacity(parseInt(e.target.value))}
-                                />
-                                <Button
-                                    variant="success"
-                                    onClick={handleSaveCapacity}
-                                    disabled={isSaving}
-                                >
-                                    {isSaving ? 'Envoi...' : <><i className="fa fa-save me-2"></i> Enregistrer</>}
-                                </Button>
-                            </Form.Group>
+                        <Card className="border-0 shadow-lg rounded-4 overflow-hidden">
+                            <div className="bg-white p-4 border-b border-gray-100">
+                                <h4 className="mb-0 d-flex align-items-center gap-3 text-gray-900">
+                                    <i className="fa fa-gears text-gray-400"></i>
+                                    Paramètres Généraux du Système
+                                </h4>
+                            </div>
+                            <Card.Body className="p-5">
+                                <Row className="align-items-center">
+                                    <Col md={7}>
+                                        <div className="d-flex align-items-center gap-4">
+                                            <div className="bg-gray-50 p-4 rounded-circle text-gray-600" style={{ fontSize: '2rem' }}>
+                                                <i className="fa fa-fire"></i>
+                                            </div>
+                                            <div>
+                                                <h5 className="font-weight-bold mb-1 text-gray-900">Capacité des tables dans la Cuisine</h5>
+                                                <p className="text-muted mb-0">Configurez le nombre maximal de couverts disponibles en temps réel.</p>
+                                            </div>
+                                        </div>
+                                    </Col>
+                                    <Col md={5} className="mt-4 mt-md-0">
+                                        <div className="d-flex align-items-center justify-content-md-end gap-3">
+                                            <Form.Control
+                                                type="number"
+                                                className="form-control-lg border-2 shadow-sm"
+                                                style={{ width: '120px', textAlign: 'center', borderRadius: '15px' }}
+                                                value={capacity}
+                                                onChange={e => setCapacity(parseInt(e.target.value))}
+                                            />
+                                            <Button
+                                                variant="primary"
+                                                size="lg"
+                                                className="rounded-pill px-5 py-3 font-weight-bold shadow transition-all hover-scale"
+                                                onClick={handleSaveCapacity}
+                                                disabled={isSaving}
+                                            >
+                                                {isSaving ? 'Envoi...' : <><i className="fa fa-save me-2"></i> Enregistrer</>}
+                                            </Button>
+                                        </div>
+                                    </Col>
+                                </Row>
+                            </Card.Body>
                         </Card>
                     </Col>
                 </Row>
             </Container>
+
+            {/* Success Modal */}
+            <Modal show={showSuccessModal} onHide={() => setShowSuccessModal(false)} centered>
+                <Modal.Header closeButton className="border-0">
+                    <Modal.Title className="text-success d-flex align-items-center gap-2">
+                        <i className="fa fa-check-circle"></i> Succès
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body className="text-center py-4">
+                    <div className="mb-4">
+                        <i className="fa fa-cloud-upload text-success" style={{ fontSize: '4rem' }}></i>
+                    </div>
+                    <h4>Configuration Enregistrée</h4>
+                    <p className="text-muted">La capacité des tables dans la cuisine a été mise à jour avec succès.</p>
+                </Modal.Body>
+                <Modal.Footer className="border-0 justify-content-center pb-4">
+                    <Button variant="success" className="rounded-pill px-5" onClick={() => setShowSuccessModal(false)}>
+                        Fermer
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </div>
     );
 }
