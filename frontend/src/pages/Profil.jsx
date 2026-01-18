@@ -118,14 +118,16 @@ function Profil() {
                         </h1>
                         <p className="text-gray-500 font-medium">{user.email}</p>
                     </div>
-                    <div className="md:ml-auto flex gap-4">
-                        <button
-                            onClick={() => setActiveTab(activeTab === 'settings' ? 'orders' : 'settings')}
-                            className="bg-gray-900 text-white px-8 py-3 rounded-2xl font-bold hover:bg-black transition-all"
-                        >
-                            {activeTab === 'settings' ? 'Mes Commandes' : 'Paramètres'}
-                        </button>
-                    </div>
+                    {user.role !== 'superadmin' && user.role !== 'webmaster' && (
+                        <div className="md:ml-auto flex gap-4">
+                            <button
+                                onClick={() => setActiveTab(activeTab === 'settings' ? 'orders' : 'settings')}
+                                className="bg-gray-900 text-white px-8 py-3 rounded-2xl font-bold hover:bg-black transition-all"
+                            >
+                                {activeTab === 'settings' ? 'Mes Commandes' : 'Paramètres'}
+                            </button>
+                        </div>
+                    )}
                 </div>
             </header>
 
@@ -154,7 +156,91 @@ function Profil() {
 
                         {/* Main Content Area */}
                         <div className="lg:col-span-2">
-                            {activeTab === 'orders' ? (
+                            {(user.role === 'superadmin' || user.role === 'webmaster') ? (
+                                // Admin roles: Show only settings
+                                <div className="space-y-8">
+                                    {/* Personal Info Form */}
+                                    <div className="bg-white rounded-[40px] shadow-lg border border-gray-100 p-10">
+                                        <h2 className="text-2xl font-bold text-gray-900 mb-8">Informations Personnelles</h2>
+                                        <form onSubmit={handleUpdateProfile} className="space-y-6">
+                                            <div className="grid md:grid-cols-2 gap-6">
+                                                <div className="space-y-2">
+                                                    <label className="text-xs font-black uppercase text-gray-400 tracking-widest">Prénom</label>
+                                                    <input
+                                                        type="text"
+                                                        value={firstName}
+                                                        onChange={(e) => setFirstName(e.target.value)}
+                                                        className="w-full bg-gray-50 border-0 rounded-2xl p-4 focus:ring-2 focus:ring-orange-600 transition-all"
+                                                    />
+                                                </div>
+                                                <div className="space-y-2">
+                                                    <label className="text-xs font-black uppercase text-gray-400 tracking-widest">Nom</label>
+                                                    <input
+                                                        type="text"
+                                                        value={lastName}
+                                                        onChange={(e) => setLastName(e.target.value)}
+                                                        className="w-full bg-gray-50 border-0 rounded-2xl p-4 focus:ring-2 focus:ring-orange-600 transition-all"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="space-y-2">
+                                                <label className="text-xs font-black uppercase text-gray-400 tracking-widest">Téléphone</label>
+                                                <input
+                                                    type="text"
+                                                    value={phone}
+                                                    onChange={(e) => setPhone(e.target.value)}
+                                                    className="w-full bg-gray-50 border-0 rounded-2xl p-4 focus:ring-2 focus:ring-orange-600 transition-all"
+                                                />
+                                            </div>
+                                            <button type="submit" className="bg-orange-600 text-white px-10 py-4 rounded-2xl font-bold hover:bg-orange-700 transition-all shadow-lg shadow-orange-600/20">
+                                                Enregistrer les modifications
+                                            </button>
+                                        </form>
+                                    </div>
+
+                                    {/* Change Password Form */}
+                                    <div className="bg-white rounded-[40px] shadow-lg border border-gray-100 p-10">
+                                        <h2 className="text-2xl font-bold text-gray-900 mb-8">Sécurité</h2>
+                                        <form onSubmit={handleChangePassword} className="space-y-6">
+                                            <div className="space-y-2">
+                                                <label className="text-xs font-black uppercase text-gray-400 tracking-widest">Mot de passe actuel</label>
+                                                <input
+                                                    type="password"
+                                                    value={currentPassword}
+                                                    onChange={(e) => setCurrentPassword(e.target.value)}
+                                                    className="w-full bg-gray-50 border-0 rounded-2xl p-4 focus:ring-2 focus:ring-orange-600 transition-all"
+                                                    required
+                                                />
+                                            </div>
+                                            <div className="grid md:grid-cols-2 gap-6">
+                                                <div className="space-y-2">
+                                                    <label className="text-xs font-black uppercase text-gray-400 tracking-widest">Nouveau mot de passe</label>
+                                                    <input
+                                                        type="password"
+                                                        value={newPassword}
+                                                        onChange={(e) => setNewPassword(e.target.value)}
+                                                        className="w-full bg-gray-50 border-0 rounded-2xl p-4 focus:ring-2 focus:ring-orange-600 transition-all"
+                                                        required
+                                                    />
+                                                </div>
+                                                <div className="space-y-2">
+                                                    <label className="text-xs font-black uppercase text-gray-400 tracking-widest">Confirmer</label>
+                                                    <input
+                                                        type="password"
+                                                        value={confirmPassword}
+                                                        onChange={(e) => setConfirmPassword(e.target.value)}
+                                                        className="w-full bg-gray-50 border-0 rounded-2xl p-4 focus:ring-2 focus:ring-orange-600 transition-all"
+                                                        required
+                                                    />
+                                                </div>
+                                            </div>
+                                            <button type="submit" className="bg-gray-900 text-white px-10 py-4 rounded-2xl font-bold hover:bg-black transition-all shadow-lg shadow-black/20">
+                                                Mettre à jour le mot de passe
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            ) : activeTab === 'orders' ? (
                                 <div className="bg-white rounded-[40px] shadow-lg border border-gray-100 p-10">
                                     <h2 className="text-2xl font-bold text-gray-900 mb-10">Historique des Commandes</h2>
 

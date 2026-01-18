@@ -35,6 +35,23 @@ class PasswordChange(BaseModel):
     current_password: str
     new_password: str
 
+# Admin User Management Schemas
+class UserAdminCreate(BaseModel):
+    email: EmailStr
+    name: str
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    phone: Optional[str] = None
+    password: str
+    role: UserRole
+
+class UserAdminUpdate(BaseModel):
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    phone: Optional[str] = None
+    role: Optional[UserRole] = None
+    password: Optional[str] = None  # Optional password reset
+
 # Product Schemas
 class ProductBase(BaseModel):
     name: str

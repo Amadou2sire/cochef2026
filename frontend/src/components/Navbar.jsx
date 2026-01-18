@@ -11,6 +11,31 @@ function Navbar() {
     const [showCart, setShowCart] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+    useEffect(() => {
+        const fetchUser = async () => {
+            const token = localStorage.getItem('token');
+            if (token) {
+                try {
+                    const res = await axios.get('http://localhost:8000/auth/me', {
+                        headers: { Authorization: `Bearer ${token}` }
+                    });
+                    setUser(res.data);
+                } catch (error) {
+                    console.error("Error fetching user:", error);
+                    // Optionally clear invalid token
+                    // localStorage.removeItem('token');
+                }
+            }
+        };
+        fetchUser();
+    }, [location.pathname]); // Re-fetch on route change to keep sync if needed
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        setUser(null);
+        window.location.href = '/login';
+    };
+
     const toggleMenu = () => {
         setMobileMenuOpen(!mobileMenuOpen);
     };
@@ -36,8 +61,17 @@ function Navbar() {
                                     {user && (
                                         <li className="scroll-to-section"><Link to="/profil" className={location.pathname === '/profil' ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>Profil</Link></li>
                                     )}
+                                    {user && user.role === 'superadmin' && (
+                                        <li className="scroll-to-section"><Link to="/superadmin" className={location.pathname === '/superadmin' ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>Superadmin</Link></li>
+                                    )}
                                     {user && user.role === 'webmaster' && (
-                                        <li className="scroll-to-section"><Link to="/admin" className={location.pathname.startsWith('/admin') ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>Admin</Link></li>
+                                        <li className="scroll-to-section"><Link to="/admin" className={location.pathname.startsWith('/admin') ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>Webmaster</Link></li>
+                                    )}
+                                    {user && user.role === 'gerant' && (
+                                        <li className="scroll-to-section"><Link to="/gerant" className={location.pathname === '/gerant' ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>Gérant</Link></li>
+                                    )}
+                                    {user && user.role === 'caissier' && (
+                                        <li className="scroll-to-section"><Link to="/caissier" className={location.pathname === '/caissier' ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>Caisse</Link></li>
                                     )}
 
                                     {/* Cart Icon */}

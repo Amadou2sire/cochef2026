@@ -27,7 +27,7 @@
 
   /* Typographie */
   --font-body: 'Inter', -apple-system, sans-serif;
-  --font-heading: 'Playfair Display', serif;
+  --font-heading: 'Inter', -apple-system, sans-serif;
 
   /* Spacing */
   --container-max: 1200px;
@@ -246,27 +246,39 @@ h4 {
     /* Fix potential weird backgrounds */
   }
 }
+
 /* Mobile Spacing Fixes */
 @media (max-width: 767px) {
   .main-banner {
-    padding-top: 120px !important; /* Reduced from potential default */
+    padding-top: 120px !important;
+    /* Reduced from potential default */
     padding-bottom: 0px !important;
   }
+
   .section {
     padding-top: 40px !important;
     padding-bottom: 40px !important;
     margin-top: 0px !important;
   }
-  .about-us, .our-services, .our-portfolio, .our-blog, .contact-us {
+
+  .about-us,
+  .our-services,
+  .our-portfolio,
+  .our-blog,
+  .contact-us {
     padding-top: 30px !important;
     padding-bottom: 30px !important;
   }
+
   .header-text {
     margin-bottom: 30px !important;
   }
-  .left-image, .right-image {
+
+  .left-image,
+  .right-image {
     margin-bottom: 20px !important;
   }
+
   /* Fix banner form spacing */
   .main-banner form {
     margin-top: 20px !important;

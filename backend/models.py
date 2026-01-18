@@ -18,6 +18,7 @@ class UserRole(str, enum.Enum):
     CAISSIER = "caissier"
     GERANT = "gerant"
     WEBMASTER = "webmaster"
+    SUPERADMIN = "superadmin"
 
 class OrderStatus(str, enum.Enum):
     PENDING = "pending"

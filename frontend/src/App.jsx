@@ -17,6 +17,8 @@ import AdminDashboard from './pages/AdminDashboard';
 import ProductManagement from './pages/ProductManagement';
 import SupplementManagement from './pages/SupplementManagement';
 import EventManagement from './pages/EventManagement';
+import AdminSettings from './pages/AdminSettings';
+import SuperAdminDashboard from './pages/SuperAdminDashboard';
 import PrivateRoute from './components/PrivateRoute';
 
 function App() {
@@ -34,7 +36,7 @@ function App() {
               <Route path="/login" element={<LoginRegister />} />
 
               {/* Protected Routes */}
-              <Route element={<PrivateRoute roles={['client', 'webmaster', 'gerant', 'caissier']} />}>
+              <Route element={<PrivateRoute roles={['client', 'webmaster', 'gerant', 'caissier', 'superadmin']} />}>
                 <Route path="/profil" element={<Profil />} />
               </Route>
 
@@ -46,8 +48,13 @@ function App() {
                 <Route path="/caissier" element={<Caissier />} />
               </Route>
 
+              <Route element={<PrivateRoute roles={['superadmin']} />}>
+                <Route path="/superadmin" element={<SuperAdminDashboard />} />
+              </Route>
+
               <Route element={<PrivateRoute roles={['webmaster']} />}>
                 <Route path="/admin" element={<AdminDashboard />} />
+                <Route path="/admin/settings" element={<AdminSettings />} />
                 <Route path="/admin/products" element={<ProductManagement />} />
                 <Route path="/admin/supplements" element={<SupplementManagement />} />
                 <Route path="/admin/events" element={<EventManagement />} />

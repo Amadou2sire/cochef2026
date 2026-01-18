@@ -1213,7 +1213,7 @@ Blog
 .our-blog .left-image ul li {
   display: inline-block;
   font-size: 15px;
-  color: #afafaf;
+  color: #000000;
   font-weight: 300;
   margin-right: 20px;
 }
@@ -1257,7 +1257,7 @@ Blog
 
 .our-blog .right-list .left-content span {
   font-size: 15px;
-  color: #afafaf;
+  color: #000000;
   font-weight: 300;
 }
 

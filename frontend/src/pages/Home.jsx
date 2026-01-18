@@ -6,12 +6,16 @@ import { Link } from 'react-router-dom';
 import ProductSelectionModal from '../components/ProductSelectionModal';
 
 
+import videoBg from '../assets/videos/videoCoChef.mp4';
+
 function Home() {
     const [events, setEvents] = useState([]);
     const [occupancy, setOccupancy] = useState(null);
     const [products, setProducts] = useState([]);
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [showSelectionModal, setShowSelectionModal] = useState(false);
+
+    const [settings, setSettings] = useState({});
 
     useEffect(() => {
         // Handle preloader
@@ -25,14 +29,23 @@ function Home() {
         // Fetch data
         const fetchData = async () => {
             try {
-                const [eventsRes, occupancyRes, productsRes] = await Promise.all([
+                const [eventsRes, occupancyRes, productsRes, settingsRes] = await Promise.all([
                     axios.get('http://localhost:8000/events'),
                     axios.get('http://localhost:8000/kitchen/occupancy'),
-                    axios.get('http://localhost:8000/menu')
+                    axios.get('http://localhost:8000/menu'),
+                    axios.get('http://localhost:8000/settings')
                 ]);
                 setEvents(eventsRes.data);
                 setOccupancy(occupancyRes.data);
                 setProducts(productsRes.data);
+
+                // Process settings
+                const settingsMap = {};
+                settingsRes.data.forEach(s => {
+                    settingsMap[s.key] = s.value;
+                });
+                setSettings(settingsMap);
+
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
@@ -60,38 +73,39 @@ function Home() {
             </div>
             {/* ***** Preloader End ***** */}
 
-            <div className="main-banner wow fadeIn" id="top" data-wow-duration="1s" data-wow-delay="0.5s">
-                <div className="container">
+            <div className="main-banner wow fadeIn" id="top" data-wow-duration="1s" data-wow-delay="0.5s" style={{ position: 'relative', height: '100vh', width: '100%', overflow: 'hidden' }}>
+                <video autoPlay muted loop playsInline key={settings.home_banner_video_url} style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    minWidth: '100%',
+                    minHeight: '100%',
+                    width: 'auto',
+                    height: 'auto',
+                    zIndex: '0',
+                    transform: 'translate(-50%, -50%)',
+                    objectFit: 'cover'
+                }}>
+                    <source src={settings.home_banner_video_url || videoBg} type="video/mp4" />
+                </video>
+                {/* Overlay removed as requested implicitly by removing text */}
+
+                <div className="container" style={{ position: 'relative', zIndex: '2' }}>
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="row">
-                                <div className="col-lg-6 align-self-center">
+                                <div className="col-lg-12 align-self-center">
                                     <div className="left-content header-text wow fadeInLeft" data-wow-duration="1s" data-wow-delay="1s">
-                                        <h6>Welcome to CoChef</h6>
-                                        <h2>We Make <em>Delicious Ideas</em> &amp; <span>Gourmet</span> Experiences</h2>
-                                        <p>CoChef is your premium destination for culinary sharing, where passion meets expertise. Discover our unique platform designed for food lovers.</p>
-                                        <form id="search" action="#" method="GET">
-                                            <fieldset>
-                                                <input type="address" name="address" className="email" placeholder="Rechercher une recette ou un chef..." autoComplete="on" required />
-                                            </fieldset>
-                                            <fieldset>
-                                                <button type="submit" className="main-button">Rechercher</button>
-                                            </fieldset>
-                                        </form>
                                     </div>
                                 </div>
-                                <div className="col-lg-6">
-                                    <div className="right-image d-none d-lg-block wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.5s">
-                                        <img src="/assets/images/banner-right-image.png" alt="team meeting" />
-                                    </div>
-                                </div>
+                                {/* Removed right image as video takes focus */}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div id="about" className="about-us section">
+            <div id="about" className="about-us section" style={{ marginTop: '0' }}>
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-4">
@@ -102,47 +116,20 @@ function Home() {
                         <div className="col-lg-8 align-self-center">
                             <div className="services">
                                 <div className="row">
-                                    <div className="col-lg-6">
+                                    <div className="col-lg-12">
                                         <div className="item wow fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                                            <div className="icon">
-                                                <img src="/assets/images/service-icon-01.png" alt="reporting" />
-                                            </div>
                                             <div className="right-text">
-                                                <h4>Ateliers Culinaire</h4>
-                                                <p>Participez à des cours interactifs avec nos meilleurs chefs.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-6">
-                                        <div className="item wow fadeIn" data-wow-duration="1s" data-wow-delay="0.7s">
-                                            <div className="icon">
-                                                <img src="/assets/images/service-icon-02.png" alt="" />
-                                            </div>
-                                            <div className="right-text">
-                                                <h4>Recettes Exclusives</h4>
-                                                <p>Accédez à des centaines de recettes testées et approuvées.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-6">
-                                        <div className="item wow fadeIn" data-wow-duration="1s" data-wow-delay="0.9s">
-                                            <div className="icon">
-                                                <img src="/assets/images/service-icon-03.png" alt="" />
-                                            </div>
-                                            <div className="right-text">
-                                                <h4>Communauté Active</h4>
-                                                <p>Échangez avec d'autres passionnés et partagez vos astuces.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-6">
-                                        <div className="item wow fadeIn" data-wow-duration="1s" data-wow-delay="1.1s">
-                                            <div className="icon">
-                                                <img src="/assets/images/service-icon-04.png" alt="" />
-                                            </div>
-                                            <div className="right-text">
-                                                <h4>Services Traiteur</h4>
-                                                <p>Organisez vos événements avec nos solutions sur mesure.</p>
+                                                <h1 style={{ color: 'black', fontWeight: 'bold', marginBottom: '10px', fontSize: '2.5rem' }}>
+                                                    {settings.welcome_title || "Bienvenue chez CoChef"}
+                                                </h1>
+                                                <h3 style={{ color: 'black', lineHeight: '1.4', fontWeight: 'normal', marginBottom: '25px', fontSize: '1.5rem' }}>
+                                                    {(settings.welcome_subtitle || "Le bon goût des affaires\noù chaque repas est une opportunité").split('\n').map((line, i) => (
+                                                        <span key={i}>{line}<br /></span>
+                                                    ))}
+                                                </h3>
+                                                <p style={{ fontSize: '1.2rem', lineHeight: '1.8' }}>
+                                                    {settings.welcome_text || "Explorez une expérience culinaire exceptionnelle au cœur d'un village animé, où l'innovation et la tradition se rencontrent, grâce à l’écosystème proposé par StartUp Village."}
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
@@ -158,14 +145,14 @@ function Home() {
                     <div className="row">
                         <div className="col-lg-6 align-self-center  wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.2s">
                             <div className="left-image">
-                                <img src="/assets/images/chef-portrait.jpg" alt="Chef de la semaine" className="rounded-4 shadow-lg" />
+                                <img src={settings.chef_image_url || "/assets/images/chef-portrait.jpg"} alt="Chef de la semaine" className="rounded-4 shadow-lg" style={{ width: '100%', height: 'auto', objectFit: 'cover' }} />
                             </div>
                         </div>
                         <div className="col-lg-6 wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.2s">
                             <div className="section-heading">
                                 <h6>Le Chef de la Semaine</h6>
-                                <h2>Rencontrez le Chef <em>Marc Antoine</em> &amp; Son Savoir-<span>Faire</span> UNIQUE</h2>
-                                <p>Cette semaine, nous mettons à l'honneur le Chef Marc Antoine, passionné par la cuisine fusion et les produits de saison. Avec plus de 15 ans d'expérience dans les plus grands restaurants, il partage avec vous ses secrets et ses inspirations pour des moments gourmands inoubliables.</p>
+                                <h2>Rencontrez le Chef <em>{settings.chef_name || "Marc Antoine"}</em> &amp; Son Savoir-<span>Faire</span> UNIQUE</h2>
+                                <p>{settings.chef_description || "Cette semaine, nous mettons à l'honneur le Chef Marc Antoine, passionné par la cuisine fusion et les produits de saison. Avec plus de 15 ans d'expérience dans les plus grands restaurants, il partage avec vous ses secrets et ses inspirations pour des moments gourmands inoubliables."}</p>
                             </div>
                             <div className="row">
                                 <div className="col-lg-12">
@@ -258,38 +245,52 @@ function Home() {
                 product={selectedProduct}
             />
 
+            {/* Free Tables Section */}
+            {occupancy && (
+                <div id="free-tables" className="section" style={{ paddingTop: '40px', paddingBottom: '40px' }}>
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-12">
+                                <div className="section-heading text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
+                                    <h2>Disponibilité <em>Cuisine</em> en <span>Temps Réel</span></h2>
+                                    <p className="d-none d-md-block">Consultez la disponibilité de nos tables pour planifier votre visite</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="row justify-content-center">
+                            <div className="col-12 col-md-10 col-lg-8 px-3 px-md-4">
+                                <div className="kitchen-occupancy p-3 p-md-5 bg-white rounded-4 shadow-lg border border-light wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.3s">
+                                    <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-3 mb-md-4 gap-2">
+                                        <h3 className="mb-0 fw-bold fs-5 fs-md-4"><i className="fa fa-fire text-danger me-2"></i> Tables Disponibles</h3>
+                                        <span className="badge bg-success fs-6 fs-md-5 px-3 px-md-4 py-2">
+                                            {occupancy.free_tables} tables libres
+                                        </span>
+                                    </div>
+                                    <div className="progress mb-3" style={{ height: '30px', borderRadius: '20px' }}>
+                                        <div
+                                            className={`progress-bar progress-bar-striped progress-bar-animated ${occupancy.percentage > 80 ? 'bg-danger' : occupancy.percentage > 50 ? 'bg-warning' : 'bg-success'}`}
+                                            role="progressbar"
+                                            style={{ width: `${100 - occupancy.percentage}%`, fontSize: '0.9rem', fontWeight: 'bold' }}
+                                            aria-valuenow={occupancy.free_tables}
+                                            aria-valuemin="0"
+                                            aria-valuemax={occupancy.max_capacity}
+                                        >
+                                            {occupancy.free_tables} Tables Libres
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             <div id="blog" className="our-blog section mb-2">
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-6 wow fadeInDown" data-wow-duration="1s" data-wow-delay="0.25s">
                             <div className="section-heading">
                                 <h2>Nos Prochains <em>Évènements</em> &amp; <span>Ateliers</span></h2>
-                                {occupancy && (
-                                    <div className="kitchen-occupancy mt-4 p-3 bg-light rounded shadow-sm border border-light">
-                                        <div className="d-flex justify-content-between align-items-center mb-2">
-                                            <h5 className="mb-0"><i className="fa fa-fire text-danger"></i> Disponibilité Cuisine</h5>
-                                            <span className="badge bg-success" style={{ fontSize: '0.9rem' }}>
-                                                {occupancy.free_tables} tables libres
-                                            </span>
-                                        </div>
-                                        <div className="progress" style={{ height: '25px', borderRadius: '15px' }}>
-                                            <div
-                                                className={`progress-bar progress-bar-striped progress-bar-animated ${occupancy.percentage > 80 ? 'bg-danger' : occupancy.percentage > 50 ? 'bg-warning' : 'bg-success'}`}
-                                                role="progressbar"
-                                                style={{ width: `${occupancy.percentage}%` }}
-                                                aria-valuenow={occupancy.occupied_places}
-                                                aria-valuemin="0"
-                                                aria-valuemax={occupancy.max_capacity}
-                                            >
-                                                {occupancy.occupied_places} / {occupancy.max_capacity} Occupées
-                                            </div>
-                                        </div>
-                                        <div className="d-flex justify-content-between mt-2 small text-muted">
-                                            <span><i className="fa fa-user"></i> Manuel: {occupancy.manual_occupied}</span>
-                                            <span><i className="fa fa-calendar"></i> Événements: {occupancy.event_occupied}</span>
-                                        </div>
-                                    </div>
-                                )}
                             </div>
                         </div>
                         <div className="col-lg-6 wow fadeInDown" data-wow-duration="1s" data-wow-delay="0.25s">
@@ -308,13 +309,13 @@ function Home() {
                                             <div className="inner-content">
                                                 <ul>
                                                     <li><i className="fa fa-calendar"></i> {new Date(events[0].date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}</li>
-                                                    <li><i className="fa fa-users"></i> {events[0].occupied_places} / {events[0].total_places} places</li>
+                                                    <li><i className="fa fa-users"></i> {events[0].occupied_places} places</li>
                                                 </ul>
                                                 <a href="#"><h4>{events[0].title}</h4></a>
                                                 <p>{events[0].description}</p>
-                                                <div className="main-blue-button">
+                                                {/* <div className="main-blue-button">
                                                     <a href="#">En savoir plus</a>
-                                                </div>
+                                                </div> */}
                                             </div>
                                         </div>
                                     </div>
@@ -327,7 +328,7 @@ function Home() {
                                                     <div className="left-content align-self-center">
                                                         <span><i className="fa fa-calendar"></i> {new Date(event.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
                                                         <a href="#"><h4>{event.title}</h4></a>
-                                                        <p>{event.occupied_places} / {event.total_places} places occupées</p>
+                                                        <p>{event.occupied_places} places occupées</p>
                                                     </div>
                                                     <div className="right-image">
                                                         <a href="#"><img src={event.image_url || "/assets/images/blog-thumb-01.jpg"} alt={event.title} style={{ width: '120px', height: '120px', objectFit: 'cover', borderRadius: '15px' }} /></a>

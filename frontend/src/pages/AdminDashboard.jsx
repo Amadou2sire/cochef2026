@@ -101,6 +101,18 @@ function AdminDashboard() {
                             </Card.Body>
                         </Card>
                     </Col>
+                    <Col lg={4} className="mb-4">
+                        <Card className="h-100 border-0 shadow-sm hover-shadow transition-all group">
+                            <Card.Body className="p-4 text-center">
+                                <div className="icon mb-4 transform group-hover:scale-110 transition-transform duration-300" style={{ fontSize: '3.5rem', color: '#03a4ed' }}>
+                                    <i className="fa fa-desktop"></i>
+                                </div>
+                                <h4 className="font-weight-bold mb-3">Gestion Contenu (CMS)</h4>
+                                <p className="text-muted mb-4">Modifiez la bannière, le chef de la semaine et les textes d'accueil.</p>
+                                <Button as={Link} to="/admin/settings" variant="primary" className="rounded-pill px-4 py-2 font-weight-bold shadow-sm">Gérer le Contenu</Button>
+                            </Card.Body>
+                        </Card>
+                    </Col>
                 </Row>
 
                 <Row className="mt-5">

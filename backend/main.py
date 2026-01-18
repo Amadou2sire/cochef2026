@@ -139,6 +139,98 @@ def change_password(
     db.commit()
     return {"message": "Password updated successfully"}
 
+# User Management endpoints (Superadmin only)
+@app.get("/users", response_model=List[schemas.User])
+def get_all_users(
+    current_user: models.User = Depends(get_current_user),
+    db: Session = Depends(models.get_db)
+):
+    if current_user.role != models.UserRole.SUPERADMIN:
+        raise HTTPException(status_code=403, detail="Not authorized")
+    return db.query(models.User).all()
+
+@app.post("/users", response_model=schemas.User)
+def create_user_admin(
+    user: schemas.UserAdminCreate,
+    current_user: models.User = Depends(get_current_user),
+    db: Session = Depends(models.get_db)
+):
+    if current_user.role != models.UserRole.SUPERADMIN:
+        raise HTTPException(status_code=403, detail="Not authorized")
+    
+    # Check if user already exists
+    db_user = db.query(models.User).filter(models.User.email == user.email).first()
+    if db_user:
+        raise HTTPException(status_code=400, detail="Email already registered")
+    
+    # Create new user
+    hashed_password = auth.get_password_hash(user.password)
+    db_user = models.User(
+        name=user.name,
+        first_name=user.first_name,
+        last_name=user.last_name,
+        email=user.email,
+        password_hash=hashed_password,
+        phone=user.phone,
+        role=user.role
+    )
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    return db_user
+
+@app.put("/users/{user_id}", response_model=schemas.User)
+def update_user_admin(
+    user_id: int,
+    user_update: schemas.UserAdminUpdate,
+    current_user: models.User = Depends(get_current_user),
+    db: Session = Depends(models.get_db)
+):
+    if current_user.role != models.UserRole.SUPERADMIN:
+        raise HTTPException(status_code=403, detail="Not authorized")
+    
+    db_user = db.query(models.User).filter(models.User.id == user_id).first()
+    if not db_user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    if user_update.first_name is not None:
+        db_user.first_name = user_update.first_name
+    if user_update.last_name is not None:
+        db_user.last_name = user_update.last_name
+    if user_update.phone is not None:
+        db_user.phone = user_update.phone
+    if user_update.role is not None:
+        db_user.role = user_update.role
+    if user_update.password is not None:
+        db_user.password_hash = auth.get_password_hash(user_update.password)
+    
+    db_user.name = f"{db_user.first_name or ''} {db_user.last_name or ''}".strip() or db_user.name
+    
+    db.commit()
+    db.refresh(db_user)
+    return db_user
+
+@app.delete("/users/{user_id}")
+def delete_user_admin(
+    user_id: int,
+    current_user: models.User = Depends(get_current_user),
+    db: Session = Depends(models.get_db)
+):
+    if current_user.role != models.UserRole.SUPERADMIN:
+        raise HTTPException(status_code=403, detail="Not authorized")
+    
+    db_user = db.query(models.User).filter(models.User.id == user_id).first()
+    if not db_user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Prevent deleting yourself
+    if db_user.id == current_user.id:
+        raise HTTPException(status_code=400, detail="Cannot delete yourself")
+    
+    db.delete(db_user)
+    db.commit()
+    return {"message": "User deleted successfully"}
+
 # Product endpoints
 @app.get("/menu", response_model=List[schemas.ProductWithSupplements])
 def get_menu(category: str = None, db: Session = Depends(models.get_db)):
@@ -550,14 +642,18 @@ def update_setting(
     db.refresh(db_setting)
     return db_setting
 
+@app.get("/settings", response_model=List[schemas.Setting])
+def get_public_settings(db: Session = Depends(models.get_db)):
+    return db.query(models.Setting).all()
+
 @app.post("/upload")
-async def upload_image(file: UploadFile = File(...), current_user: models.User = Depends(get_current_user)):
+async def upload_file(file: UploadFile = File(...), current_user: models.User = Depends(get_current_user)):
     if current_user.role != models.UserRole.WEBMASTER:
         raise HTTPException(status_code=403, detail="Not authorized")
     
     file_extension = file.filename.split(".")[-1]
-    if file_extension.lower() not in ["jpg", "jpeg", "png"]:
-        raise HTTPException(status_code=400, detail="Only jpg, jpeg and png files are allowed")
+    if file_extension.lower() not in ["jpg", "jpeg", "png", "mp4", "webm"]:
+        raise HTTPException(status_code=400, detail="Only jpg, jpeg, png, mp4 and webm files are allowed")
     
     import uuid
     filename = f"{uuid.uuid4()}.{file_extension}"
