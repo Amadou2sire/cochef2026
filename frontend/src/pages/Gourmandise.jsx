@@ -1,11 +1,12 @@
-import React from 'react';
 import { motion } from 'framer-motion';
+import patisserieSignatureImg from '../assets/images/patisserieSignatures.png';
+import patissiereImg from '../assets/images/patissiere.png';
 
 function Gourmandise() {
     const cakes = [
         { id: 1, name: 'Le Royal Chocolat', img: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=800&auto=format&fit=crop' },
         { id: 2, name: 'Fraisier Tradition', img: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?q=80&w=800&auto=format&fit=crop' },
-        { id: 3, name: 'Mille-Feuille Vanille', img: 'https://images.unsplash.com/photo-1588195538326-c5f1f23fa438?q=80&w=800&auto=format&fit=crop' },
+        { id: 3, name: 'Mille-Feuille Vanille', img: patisserieSignatureImg },
     ];
 
     return (
@@ -65,8 +66,8 @@ function Gourmandise() {
                             <div className="relative">
                                 <div className="absolute -top-4 -left-4 w-24 h-24 bg-orange-100 rounded-full -z-10"></div>
                                 <img
-                                    src="https://images.unsplash.com/photo-1556910103-1c02745a30bf?q=80&w=800&auto=format&fit=crop"
-                                    alt="L'atelier"
+                                    src={patissiereImg}
+                                    alt="Patissière"
                                     className="rounded-[40px] shadow-2xl w-full"
                                 />
                                 <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-orange-600/10 rounded-full -z-10"></div>

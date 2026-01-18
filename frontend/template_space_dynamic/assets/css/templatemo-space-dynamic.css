@@ -842,7 +842,7 @@ Banner Style
 
 .main-banner:after {
   content: '';
-  background-image: url(../images/baner-dec-left.png);
+  /* background-image: url(../images/baner-dec-left.png); */
   background-repeat: no-repeat;
   position: absolute;
   left: 0;
@@ -1450,10 +1450,10 @@ responsive
     text-align: center;
     margin-bottom: 45px;
   }
-  .main-banner:after {
+  /* .main-banner:after {
     top: 76px;
     z-index: -1;
-  }
+  } */
   .main-banner .left-content form,
   .main-banner .left-content form input {
     width: 100%!important;

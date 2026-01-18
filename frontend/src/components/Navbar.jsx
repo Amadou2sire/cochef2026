@@ -56,8 +56,10 @@ function Navbar() {
                                 <ul className={`nav ${mobileMenuOpen ? 'active' : ''}`}>
                                     <li className="scroll-to-section"><Link to="/" className={location.pathname === '/' ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>Home</Link></li>
                                     <li className="scroll-to-section"><Link to="/menus" className={location.pathname === '/menus' ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>Menus</Link></li>
-                                    <li className="scroll-to-section"><Link to="/gourmandise" onClick={() => setMobileMenuOpen(false)}>Gourmandises</Link></li>
-                                    <li className="scroll-to-section"><Link to="/contact" onClick={() => setMobileMenuOpen(false)}>Contact</Link></li>
+                                    <li className="scroll-to-section"><Link to="/concept" className={location.pathname === '/concept' ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>Concept</Link></li>
+                                    <li className="scroll-to-section"><Link to="/hub" className={location.pathname === '/hub' ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>CoChef Hub</Link></li>
+                                    <li className="scroll-to-section"><Link to="/gourmandise" className={location.pathname === '/gourmandise' ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>Gourmandises</Link></li>
+                                    <li className="scroll-to-section"><Link to="/contact" className={location.pathname === '/contact' ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>Contact</Link></li>
                                     {user && (
                                         <li className="scroll-to-section"><Link to="/profil" className={location.pathname === '/profil' ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>Profil</Link></li>
                                     )}

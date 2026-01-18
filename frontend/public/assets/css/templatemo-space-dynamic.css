@@ -940,7 +940,7 @@ Banner Style
 
 .main-banner:after {
   content: '';
-  background-image: url(../images/baner-dec-left.png);
+  /* background-image: url(../images/baner-dec-left.png); */
   background-repeat: no-repeat;
   position: absolute;
   left: 0;
@@ -1550,10 +1550,10 @@ responsive
     margin-bottom: 45px;
   }
 
-  .main-banner:after {
+  /* .main-banner:after {
     top: 76px;
     z-index: -1;
-  }
+  } */
 
   .main-banner .left-content form,
   .main-banner .left-content form input {
@@ -1647,7 +1647,7 @@ responsive
 
   .contact-us {
     margin-top: 60px;
-    padding: 120px 0px;
+    padding: 160px 0px;
   }
 
   .contact-us .section-heading {

@@ -19,6 +19,12 @@ import SupplementManagement from './pages/SupplementManagement';
 import EventManagement from './pages/EventManagement';
 import AdminSettings from './pages/AdminSettings';
 import SuperAdminDashboard from './pages/SuperAdminDashboard';
+import TermsOfService from './pages/TermsOfService';
+import Confidentialite from './pages/Confidentialite';
+import SecurityPolicy from './pages/SecurityPolicy';
+import UserRights from './pages/UserRights';
+import Concept from './pages/Concept';
+import CochefHub from './pages/CochefHub';
 import PrivateRoute from './components/PrivateRoute';
 
 function App() {
@@ -34,6 +40,12 @@ function App() {
               <Route path="/gourmandise" element={<Gourmandise />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/login" element={<LoginRegister />} />
+              <Route path="/terms" element={<TermsOfService />} />
+              <Route path="/politique-confidentialite" element={<Confidentialite />} />
+              <Route path="/securite-donnees" element={<SecurityPolicy />} />
+              <Route path="/vos-droits" element={<UserRights />} />
+              <Route path="/concept" element={<Concept />} />
+              <Route path="/hub" element={<CochefHub />} />
 
               {/* Protected Routes */}
               <Route element={<PrivateRoute roles={['client', 'webmaster', 'gerant', 'caissier', 'superadmin']} />}>

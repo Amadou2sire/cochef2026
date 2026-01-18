@@ -65,7 +65,7 @@ function Contact() {
                                         </div>
                                         <div>
                                             <h4 className="font-bold text-gray-900 text-lg mb-1">Adresse</h4>
-                                            <p className="text-gray-500 leading-relaxed">123 Rue de la Gastronomie,<br />75001 Paris, France</p>
+                                            <p className="text-gray-500 leading-relaxed">Startup Village Menzah,<br />Tunis, Tunisie</p>
                                         </div>
                                     </div>
                                     <div className="flex gap-6 items-start">
@@ -74,7 +74,7 @@ function Contact() {
                                         </div>
                                         <div>
                                             <h4 className="font-bold text-gray-900 text-lg mb-1">Téléphone</h4>
-                                            <p className="text-gray-500 leading-relaxed">+33 1 23 45 67 89</p>
+                                            <p className="text-gray-500 leading-relaxed">+216 71 234 567</p>
                                         </div>
                                     </div>
                                     <div className="flex gap-6 items-start">
@@ -83,18 +83,23 @@ function Contact() {
                                         </div>
                                         <div>
                                             <h4 className="font-bold text-gray-900 text-lg mb-1">Email</h4>
-                                            <p className="text-gray-500 leading-relaxed">contact@cochef.fr</p>
+                                            <p className="text-gray-500 leading-relaxed">contact@cochef.tn</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            {/* Map Placeholder */}
-                            <div className="bg-gray-200 rounded-3xl h-64 flex items-center justify-center text-gray-400 font-bold overflow-hidden border-4 border-white shadow-xl">
-                                <div className="text-center">
-                                    <div className="text-4xl mb-4">🗺️</div>
-                                    Carte Interactive
-                                </div>
+                            {/* Map Section */}
+                            <div className="bg-gray-100 rounded-3xl h-[450px] overflow-hidden border-4 border-white shadow-xl relative">
+                                <iframe
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3192.8772477157486!2d10.1836141!3d36.8454158!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12fd354e90709f37%3A0xf9353bb6963cdbd2!2sStartup%20Village%20Menzah!5e0!3m2!1sfr!2stn!4v1768773453793!5m2!1sfr!2stn"
+                                    width="100%"
+                                    height="100%"
+                                    style={{ border: 0 }}
+                                    allowFullScreen=""
+                                    loading="lazy"
+                                    referrerPolicy="no-referrer-when-downgrade"
+                                ></iframe>
                             </div>
                         </motion.div>
                     </div>
