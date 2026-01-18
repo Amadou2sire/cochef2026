@@ -369,7 +369,7 @@ function Home() {
                                 <h2>N'hésitez pas à nous envoyer un message pour vos besoins culinaires</h2>
                                 <p>Nous sommes à votre écoute pour toute demande d'atelier, de service traiteur ou de collaboration.</p>
                                 <div className="phone-info">
-                                    <h4>Pour toute question, appelez-nous : <span><i className="fa fa-phone"></i> <a href="#">01-23-45-67-89</a></span></h4>
+                                    <h4>Pour toute question, appelez-nous : <span><i className="fa fa-phone"></i> <a href="tel:01-23-45-67-89">01-23-45-67-89</a></span></h4>
                                 </div>
                             </div>
                         </div>

@@ -1,6 +1,10 @@
 import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function Contact() {
+    const [acceptedTerms, setAcceptedTerms] = useState(false);
+
     return (
         <div className="pt-24 min-h-screen bg-white">
             <header className="py-20 bg-gray-50 border-b border-gray-200">
@@ -24,7 +28,7 @@ function Contact() {
                             className="bg-white p-10 rounded-3xl shadow-2xl border border-gray-100"
                         >
                             <h2 className="text-3xl font-bold mb-8 text-gray-900">Envoyez-nous un message</h2>
-                            <form className="space-y-6">
+                            <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
                                 <div className="grid md:grid-cols-2 gap-6">
                                     <div className="space-y-2">
                                         <label className="text-sm font-bold text-gray-700 uppercase tracking-wider">Nom</label>
@@ -43,7 +47,31 @@ function Contact() {
                                     <label className="text-sm font-bold text-gray-700 uppercase tracking-wider">Message</label>
                                     <textarea rows="5" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:border-orange-600 focus:ring-1 focus:ring-orange-600 transition-all outline-none resize-none" placeholder="Comment pouvons-nous vous aider ?"></textarea>
                                 </div>
-                                <button className="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-orange-200 transition-all flex items-center justify-center gap-3">
+
+                                <div className="flex items-start gap-3 py-2">
+                                    <input
+                                        type="checkbox"
+                                        id="terms-checkbox"
+                                        checked={acceptedTerms}
+                                        onChange={(e) => setAcceptedTerms(e.target.checked)}
+                                        className="mt-1 w-4 h-4 text-orange-600 border-gray-300 rounded focus:ring-orange-600"
+                                    />
+                                    <label htmlFor="terms-checkbox" className="text-sm text-gray-600 leading-relaxed">
+                                        J'accepte les{' '}
+                                        <Link to="/terms" target="_blank" className="text-orange-600 hover:underline font-bold">
+                                            Conditions d'Utilisation
+                                        </Link>
+                                        {' '}et je reconnais avoir lu la{' '}
+                                        <Link to="/politique-confidentialite" target="_blank" className="text-orange-600 hover:underline font-bold">
+                                            Politique de Confidentialité
+                                        </Link>
+                                    </label>
+                                </div>
+
+                                <button
+                                    disabled={!acceptedTerms}
+                                    className={`w-full font-bold py-4 rounded-xl shadow-lg transition-all flex items-center justify-center gap-3 ${acceptedTerms ? 'bg-orange-600 hover:bg-orange-700 text-white hover:shadow-orange-200' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}`}
+                                >
                                     <span>🚀 Envoyer le message</span>
                                 </button>
                             </form>
@@ -74,7 +102,9 @@ function Contact() {
                                         </div>
                                         <div>
                                             <h4 className="font-bold text-gray-900 text-lg mb-1">Téléphone</h4>
-                                            <p className="text-gray-500 leading-relaxed">+216 71 234 567</p>
+                                            <p className="text-gray-500 leading-relaxed">
+                                                <a href="tel:+21671234567" className="hover:text-orange-600 transition-colors">+216 71 234 567</a>
+                                            </p>
                                         </div>
                                     </div>
                                     <div className="flex gap-6 items-start">
@@ -83,7 +113,9 @@ function Contact() {
                                         </div>
                                         <div>
                                             <h4 className="font-bold text-gray-900 text-lg mb-1">Email</h4>
-                                            <p className="text-gray-500 leading-relaxed">contact@cochef.tn</p>
+                                            <p className="text-gray-500 leading-relaxed">
+                                                <a href="mailto:contact@cochef.tn" className="hover:text-orange-600 transition-colors">contact@cochef.tn</a>
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
