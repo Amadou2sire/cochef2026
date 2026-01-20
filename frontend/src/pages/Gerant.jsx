@@ -89,10 +89,10 @@ function Gerant() {
     };
 
     const stats = [
-        { label: 'Chiffre d\'Affaires Total', value: `${dashboardData.total_sales} DT`, change: 'Total', icon: '💰' },
-        { label: 'Ventes Aujourd\'hui', value: `${dashboardData.today_sales} DT`, change: '24h', icon: '📈' },
-        { label: 'Commandes du Jour', value: dashboardData.orders_today, change: '24h', icon: '📝' },
-        { label: 'Panier Moyen', value: `${dashboardData.average_order} DT`, change: 'Avg', icon: '⚖️' },
+        { label: 'Chiffre d\'Affaires Total', value: `${dashboardData.total_sales} DT`, change: 'Total', icon: 'ti-money' },
+        { label: 'Ventes Aujourd\'hui', value: `${dashboardData.today_sales} DT`, change: '24h', icon: 'ti-stats-up' },
+        { label: 'Commandes du Jour', value: dashboardData.orders_today, change: '24h', icon: 'ti-receipt' },
+        { label: 'Panier Moyen', value: `${dashboardData.average_order} DT`, change: 'Avg', icon: 'ti-bar-chart' },
     ];
 
     if (isLoading) {
@@ -112,7 +112,7 @@ function Gerant() {
                             onClick={handleExport}
                             className="bg-green-600 text-white px-6 py-3 rounded-2xl font-bold hover:bg-green-700 transition-all shadow-lg shadow-green-200 flex items-center gap-2"
                         >
-                            <span>📊</span> Exporter Excel
+                            <i className="ti-export"></i> Exporter Excel
                         </button>
                     </div>
                 </div>
@@ -131,8 +131,8 @@ function Gerant() {
                                 className="bg-white p-8 rounded-[32px] shadow-lg border border-gray-100 flex flex-col justify-between"
                             >
                                 <div className="flex justify-between items-start mb-6">
-                                    <div className="w-12 h-12 bg-orange-50 rounded-2xl flex items-center justify-center text-2xl">
-                                        {stat.icon}
+                                    <div className="w-12 h-12 bg-orange-50 rounded-2xl flex items-center justify-center text-2xl text-orange-600">
+                                        <i className={stat.icon}></i>
                                     </div>
                                     <span className="text-gray-500 font-bold text-xs bg-gray-100 px-2 py-1 rounded-lg">
                                         {stat.change}
@@ -201,7 +201,9 @@ function Gerant() {
                             ) : (
                                 <div className="flex-grow bg-green-50 rounded-[32px] border-2 border-dashed border-green-100 flex items-center justify-center text-green-600 font-bold p-10">
                                     <div className="text-center">
-                                        <div className="text-4xl mb-4">✅</div>
+                                        <div className="text-4xl mb-4 text-green-600">
+                                            <i className="ti-check-box"></i>
+                                        </div>
                                         <p>Tout est calme pour le moment.</p>
                                     </div>
                                 </div>
