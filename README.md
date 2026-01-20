@@ -1,61 +1,89 @@
-# CoChef - Configuration
+# CoChef - Guide d'Installation et Configuration
 
-## Database Setup
+Ce projet est une application web complète avec un backend FastAPI et un frontend React (Vite).
 
-For development, you can use SQLite. Update `backend/models.py`:
+## Prérequis
 
-```python
-DATABASE_URL = "sqlite:///./cochef.db"
+- Python 3.9+
+- Node.js & npm
+- Git
+
+## Installation Initiale
+
+### 1. Clonage du projet (si nécessaire)
+```bash
+git clone <url-du-repo>
+cd p_01_cochef
 ```
 
-For production with PostgreSQL:
+### 2. Configuration du Backend
 
-```python
-DATABASE_URL = "postgresql://user:password@localhost/cochef_db"
-```
+Le backend utilise FastAPI et SQLAlchemy.
 
-## Running the Application
-
-### Backend
-
-```cmd
+```powershell
+# Aller dans le dossier backend
 cd backend
-uvicorn main:app --reload
+
+# Créer l'environnement virtuel (Windows)
+python -m venv venv
+
+# Activer l'environnement virtuel (Windows)
+.\venv\Scripts\activate
+
+# Installer les dépendances
+pip install -r requirements.txt
+
+# Créer le fichier .env
+# Copiez les variables suivantes dans un nouveau fichier nommé .env
+# SECRET_KEY=votre_cle_secrete_ici
+# DATABASE_URL=sqlite:///./cochef.db
 ```
 
-The API will be available at `http://localhost:8000`
-API documentation (Swagger): `http://localhost:8000/docs`
+### 3. Configuration du Frontend
 
-### Frontend
+Le frontend utilise React avec Vite et Tailwind CSS.
 
-```cmd
-cd frontend
-npm run dev
+```powershell
+# Aller dans le dossier frontend
+cd ../frontend
+
+# Installer les dépendances npm
+npm install
 ```
 
-The frontend will be available at `http://localhost:5173`
+## Lancement de l'Application
 
-## Environment Variables
+Pour faire tourner l'application, vous devez lancer les deux serveurs simultanément.
 
-Create a `.env` file in the backend directory:
-
-```
-SECRET_KEY=your-secret-key-here
-DATABASE_URL=sqlite:///./cochef.db
-```
-
-## Initial Setup
-
-1. Install backend dependencies:
-   ```cmd
-   cd backend
-   pip install -r requirements.txt
+### Lancer le Backend
+1. Ouvrez un terminal.
+2. Naviguez vers `backend`.
+3. Activez l'environnement virtuel : `.\venv\Scripts\activate`.
+4. Lancez le serveur :
+   ```bash
+   uvicorn main:app --reload
    ```
+   - API : `http://localhost:8000`
+   - Documentation (Swagger) : `http://localhost:8000/docs`
 
-2. Install frontend dependencies:
-   ```cmd
-   cd frontend
-   npm install
+### Lancer le Frontend
+1. Ouvrez un deuxième terminal.
+2. Naviguez vers `frontend`.
+3. Lancez le serveur de développement :
+   ```bash
+   npm run dev
    ```
+   - Application : `http://localhost:5173`
 
-3. Run both servers and access the application!
+## Base de données
+
+Par défaut, le projet utilise **SQLite** pour le développement (`cochef.db`).
+Si vous souhaitez utiliser PostgreSQL en production, modifiez la variable `DATABASE_URL` dans le fichier `.env` :
+`DATABASE_URL=postgresql://user:password@localhost/cochef_db`
+
+## Scripts Utiles (Backend)
+Dans le dossier `backend`, vous trouverez plusieurs scripts pour initialiser les données :
+- `python create_superadmin.py` : Crée un compte super-administrateur.
+- `python create_gerant.py` : Crée un compte gérant.
+- `python create_caissier.py` : Crée un compte caissier.
+
