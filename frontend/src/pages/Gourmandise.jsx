@@ -59,10 +59,11 @@ function Gourmandise() {
             </section>
 
             {/* 3. Description Section */}
-            <section className="py-20 bg-white">
+            <section className="py-10 bg-white">
                 <div className="container px-6 mx-auto">
+                    <h2 className="text-4xl font-bold mb-5 text-gray-900 font-heading mb-8 text-center lg:text-left">L'Art de la Boulangerie Artisanale</h2>
                     <div className="flex flex-col lg:flex-row items-center gap-12">
-                        <div className="lg:w-1/2">
+                        <div className="lg:w-1/2 order-2 lg:order-1">
                             <div className="relative">
                                 <div className="absolute -top-4 -left-4 w-24 h-24 bg-orange-100 rounded-full -z-10"></div>
                                 <img
@@ -73,8 +74,7 @@ function Gourmandise() {
                                 <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-orange-600/10 rounded-full -z-10"></div>
                             </div>
                         </div>
-                        <div className="lg:w-1/2 space-y-6">
-                            <h2 className="text-4xl font-bold text-gray-900 font-heading">L'Art de la Boulangerie Artisanale</h2>
+                        <div className="lg:w-1/2 space-y-6 order-3 lg:order-2">
                             <p className="text-gray-500 text-lg leading-relaxed">
                                 Chez "Les gourmandises d'Ihsene", nous croyons que chaque gâteau raconte une histoire.
                                 Notre boulangerie est née d'une passion dévorante pour les saveurs authentiques et le savoir-faire traditionnel.

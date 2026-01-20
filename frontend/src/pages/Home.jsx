@@ -222,6 +222,9 @@ function Home() {
 
             <div id="services" className="our-services section">
                 <div className="container">
+                    <h2 className="text-gray-900 text-4xl md:text-5xl font-black leading-tight mb-5 text-center">
+                        Le Chef de la <span className="text-orange-600">Semaine</span> <br className="d-none d-md-block" />
+                    </h2>
                     <div className="row">
                         <div className="col-lg-6 align-self-center  wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.2s">
                             <div className="left-image">
@@ -230,7 +233,7 @@ function Home() {
                         </div>
                         <div className="col-lg-6 wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.2s">
                             <div className="section-heading">
-                                <h6>Le Chef de la Semaine</h6>
+                                
                                 <h2>Rencontrez le Chef <em>{settings.chef_name || "Marc Antoine"}</em> &amp; Son Savoir-<span>Faire</span> UNIQUE</h2>
                                 <p>{settings.chef_description || "Cette semaine, nous mettons à l'honneur le Chef Marc Antoine, passionné par la cuisine fusion et les produits de saison. Avec plus de 15 ans d'expérience dans les plus grands restaurants, il partage avec vous ses secrets et ses inspirations pour des moments gourmands inoubliables."}</p>
                             </div>

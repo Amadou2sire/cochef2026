@@ -313,12 +313,35 @@ function Caissier() {
                                                     </div>
 
                                                     <div className="bg-gray-50 rounded-2xl p-4 text-sm text-gray-600 mb-3 text-left">
-                                                        {order.order_details?.map((detail, idx) => (
-                                                            <div key={idx} className="flex justify-between border-b border-gray-100 last:border-0 py-1 last:pb-0 first:pt-0">
-                                                                <span>{detail.quantity}x Produit #{detail.product_id}</span>
-                                                                <span className="font-bold">{detail.total_price} DT</span>
-                                                            </div>
-                                                        )) || "Détails non disponibles"}
+                                                        {order.order_details?.map((detail, idx) => {
+                                                            const productName = detail.product?.name || detail.product_name || `Produit #${detail.product_id}`;
+                                                            const options = detail.options;
+                                                            let optionsList = [];
+                                                            if (options) {
+                                                                if (options.viandes) {
+                                                                    optionsList.push(...(Array.isArray(options.viandes) ? options.viandes.map(v => typeof v === 'string' ? v : v.name || v) : [String(options.viandes)]));
+                                                                }
+                                                                if (options.sauces) {
+                                                                    optionsList.push(...(Array.isArray(options.sauces) ? options.sauces.map(s => typeof s === 'string' ? s : s.name || s) : [String(options.sauces)]));
+                                                                }
+                                                                if (options.supplements) {
+                                                                    optionsList.push(...(Array.isArray(options.supplements) ? options.supplements.map(s => typeof s === 'string' ? s : s.name || s) : [String(options.supplements)]));
+                                                                }
+                                                            }
+                                                            return (
+                                                                <div key={idx} className="border-b border-gray-100 last:border-0 py-2 last:pb-0 first:pt-0">
+                                                                    <div className="font-bold text-gray-900">
+                                                                        {detail.quantity}x {productName}
+                                                                    </div>
+                                                                    {optionsList.length > 0 && (
+                                                                        <div className="text-xs text-gray-500 ml-4 mt-1">
+                                                                            + {optionsList.join(', ')}
+                                                                        </div>
+                                                                    )}
+                                                                    <div className="text-right text-gray-900 font-bold mt-1">{detail.total_price} DT</div>
+                                                                </div>
+                                                            );
+                                                        }) || "Détails non disponibles"}
                                                     </div>
 
                                                     <div className="text-right font-black text-lg text-gray-900">
