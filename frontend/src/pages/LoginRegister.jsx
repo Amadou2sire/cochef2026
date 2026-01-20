@@ -45,7 +45,8 @@ function LoginRegister() {
                 });
 
                 const role = userRes.data.role;
-                if (role === 'webmaster') navigate('/admin');
+                if (role === 'superadmin') navigate('/superadmin');
+                else if (role === 'webmaster') navigate('/admin');
                 else if (role === 'caissier') navigate('/caissier');
                 else if (role === 'gerant') navigate('/gerant');
                 else navigate('/');
