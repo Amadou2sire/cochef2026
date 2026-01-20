@@ -256,20 +256,66 @@ function Profil() {
                                                     initial={{ opacity: 0, x: 20 }}
                                                     animate={{ opacity: 1, x: 0 }}
                                                     transition={{ delay: idx * 0.05 }}
-                                                    className="flex flex-col md:flex-row items-center gap-6 p-6 rounded-3xl border border-gray-50 hover:border-orange-100 hover:bg-orange-50/20 transition-all group"
+                                                    className="flex flex-col p-8 rounded-[32px] border border-gray-100 hover:border-orange-100 hover:bg-orange-50/10 transition-all group gap-6"
                                                 >
-                                                    <div className="w-16 h-16 bg-gray-100 rounded-2xl flex items-center justify-center text-2xl group-hover:bg-white transition-colors">📦</div>
-                                                    <div className="flex-grow text-center md:text-left">
-                                                        <div className="text-[10px] font-black tracking-widest text-[#BBB] mb-1">REF: #{order.id}</div>
-                                                        <h4 className="font-bold text-gray-900">{new Date(order.created_at).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' })}</h4>
-                                                        <p className="text-gray-400 text-xs">{order.order_details.length} articles</p>
+                                                    <div className="flex flex-col md:flex-row items-center gap-6">
+                                                        <div className="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center text-2xl group-hover:bg-white transition-colors border border-gray-100">📦</div>
+                                                        <div className="flex-grow text-center md:text-left">
+                                                            <div className="text-[10px] font-black tracking-widest text-gray-400 mb-1 uppercase">Commande #{order.id}</div>
+                                                            <h4 className="font-bold text-gray-900 text-lg">
+                                                                {new Date(order.created_at).toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' })}
+                                                            </h4>
+                                                            <div className="flex items-center gap-3 justify-center md:justify-start mt-2">
+                                                                <span className="text-xs text-gray-500 font-medium">🛒 {order.order_details.length} articles</span>
+                                                                <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
+                                                                <span className="text-xs text-gray-500 font-medium">🕒 {new Date(order.created_at).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}</span>
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex flex-col items-center md:items-end gap-2 shrink-0">
+                                                            <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest ${order.status === 'closed' || order.status === 'ready' ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'
+                                                                }`}>
+                                                                {order.status === 'pending' ? 'En Attente' :
+                                                                    order.status === 'preparing' ? 'En Cuisine' :
+                                                                        order.status === 'ready' ? 'Prêt' : 'Terminé'}
+                                                            </span>
+                                                            <span className="text-2xl font-black text-gray-900 font-heading tracking-tighter">{order.total_price.toFixed(2)} DT</span>
+                                                        </div>
                                                     </div>
-                                                    <div className="flex flex-col items-center md:items-end gap-2 shrink-0">
-                                                        <span className={`px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest ${order.status === 'closed' ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'
-                                                            }`}>
-                                                            {order.status}
-                                                        </span>
-                                                        <span className="text-xl font-black text-gray-900 font-heading tracking-tighter">{order.total_price.toFixed(2)} DT</span>
+
+                                                    {/* Added Details Section */}
+                                                    <div className="bg-gray-50/50 rounded-2xl p-6 space-y-4">
+                                                        {order.order_details?.map((detail, dIdx) => {
+                                                            const productName = detail.product?.name || detail.product_name || `Produit #${detail.product_id}`;
+                                                            const options = detail.options;
+                                                            let optionsList = [];
+                                                            if (options) {
+                                                                if (options.viandes) {
+                                                                    optionsList.push(...(Array.isArray(options.viandes) ? options.viandes.map(v => typeof v === 'string' ? v : v.name || v) : [String(options.viandes)]));
+                                                                }
+                                                                if (options.sauces) {
+                                                                    optionsList.push(...(Array.isArray(options.sauces) ? options.sauces.map(s => typeof s === 'string' ? s : s.name || s) : [String(options.sauces)]));
+                                                                }
+                                                                if (options.supplements) {
+                                                                    optionsList.push(...(Array.isArray(options.supplements) ? options.supplements.map(s => typeof s === 'string' ? s : s.name || s) : [String(options.supplements)]));
+                                                                }
+                                                            }
+                                                            return (
+                                                                <div key={dIdx} className="flex justify-between items-start gap-4 border-b border-gray-100 last:border-0 pb-3 last:pb-0">
+                                                                    <div className="flex-grow">
+                                                                        <div className="font-bold text-gray-900 flex items-center gap-2">
+                                                                            <span className="text-orange-600">{detail.quantity}x</span>
+                                                                            {productName}
+                                                                        </div>
+                                                                        {optionsList.length > 0 && (
+                                                                            <div className="text-[11px] text-gray-500 mt-1 italic">
+                                                                                + {optionsList.join(', ')}
+                                                                            </div>
+                                                                        )}
+                                                                    </div>
+                                                                    <div className="font-bold text-gray-700 shrink-0">{detail.total_price} DT</div>
+                                                                </div>
+                                                            );
+                                                        })}
                                                     </div>
                                                 </motion.div>
                                             ))}
