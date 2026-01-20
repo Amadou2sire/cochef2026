@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import ProductSelectionModal from '../components/ProductSelectionModal';
 import { useCart } from '../hooks/useCart';
+import { useNavigate } from 'react-router-dom';
 
 function Menus() {
     const [products, setProducts] = useState([]);
@@ -16,6 +17,7 @@ function Menus() {
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [showSelectionModal, setShowSelectionModal] = useState(false);
     const { addToCart } = useCart();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -35,6 +37,11 @@ function Menus() {
     }, []);
 
     const handleOrderClick = (item) => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            navigate('/login');
+            return;
+        }
         const product = products.find(p => p.id === item.originalId);
         setSelectedProduct(product);
         setShowSelectionModal(true);

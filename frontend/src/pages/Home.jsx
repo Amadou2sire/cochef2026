@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ProductSelectionModal from '../components/ProductSelectionModal';
 
 
@@ -17,6 +17,7 @@ function Home() {
     const [showSelectionModal, setShowSelectionModal] = useState(false);
 
     const [settings, setSettings] = useState({});
+    const navigate = useNavigate();
 
     useEffect(() => {
         // Handle preloader
@@ -55,6 +56,11 @@ function Home() {
     }, []);
 
     const handleOrderClick = (product) => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            navigate('/login');
+            return;
+        }
         setSelectedProduct(product);
         setShowSelectionModal(true);
     };
